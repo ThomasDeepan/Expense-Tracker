@@ -1,26 +1,40 @@
 import React from "react";
-import { useGlobalContext } from "../context/GlobalContext";
+import { useGlobalContext } from "../context/useGlobalContext";
 
-const History = () => {
-  const { incomes, deleteIncome } = useGlobalContext();
+const History = ({ type }) => {
+  const { incomes, expenses, deleteIncome, deleteExpense } = useGlobalContext();
+
+  // 1. Determine which data and function to use
+  const data = type === "income" ? incomes : expenses;
+  const deleteItem = type === "income" ? deleteIncome : deleteExpense;
+
+  // 2. Dynamic styling
+  const isIncome = type === "income";
+  const icon = isIncome ? "💰" : "💸";
+  const textColor = isIncome ? "text-green-600" : "text-red-500";
+  const bgColor = isIncome ? "bg-green-100" : "bg-red-100";
+  const symbol = isIncome ? "+" : "-";
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-bold text-slate-700">Transaction History</h2>
-      {incomes.length === 0 && (
-        <p className="text-gray-400">No transactions yet.</p>
-      )}
+      <h2 className="text-xl font-bold text-slate-700 capitalize">
+        {type} History
+      </h2>
 
-      {incomes.map((income) => {
-        const { _id, title, amount, date, category } = income;
+      {data.length === 0 && <p className="text-gray-400">No {type}s found.</p>}
+
+      {data.map((item) => {
+        const { _id, title, amount, date, category } = item;
         return (
           <div
             key={_id}
-            className="bg-white border border-gray-100 shadow-sm p-4 rounded-xl flex justify-between items-center hover:border-green-200 transition-all"
+            className={`bg-white border border-gray-100 shadow-sm p-4 rounded-xl flex justify-between items-center transition-all hover:border-slate-200`}
           >
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                💰
+              <div
+                className={`w-10 h-10 ${bgColor} rounded-full flex items-center justify-center`}
+              >
+                {icon}
               </div>
               <div>
                 <h5 className="font-bold text-slate-800">{title}</h5>
@@ -30,9 +44,11 @@ const History = () => {
               </div>
             </div>
             <div className="flex items-center gap-6">
-              <p className="font-bold text-green-600">+₹{amount}</p>
+              <p className={`font-bold ${textColor}`}>
+                {symbol}₹{amount}
+              </p>
               <button
-                onClick={() => deleteIncome(_id)}
+                onClick={() => deleteItem(_id)}
                 className="text-gray-400 hover:text-red-500 transition-colors"
               >
                 🗑️

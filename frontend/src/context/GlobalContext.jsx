@@ -1,7 +1,8 @@
-import React, { createContext, useState, useContext, useCallback } from "react";
+import React, { createContext, useState, useContext } from "react";
 import api from "../utils/api";
 
-const GlobalContext = createContext();
+// 1. Export the context so the other file can use it
+export const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
   const [incomes, setIncomes] = useState([]);
@@ -96,7 +97,23 @@ export const GlobalProvider = ({ children }) => {
   };
 
   return (
-    <GlobalContext.Provider value={contextValue}>
+    <GlobalContext.Provider
+      value={{
+        incomes,
+        expenses,
+        addIncome,
+        getIncomes,
+        deleteIncome,
+        addExpense,
+        getExpenses,
+        deleteExpense,
+        totalBalance,
+        totalIncome,
+        totalExpense,
+        error,
+        setError,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );

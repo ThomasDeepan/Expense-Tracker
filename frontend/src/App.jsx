@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // ADD THIS LINE:
-import { useGlobalContext } from "./context/GlobalContext";
+import { useGlobalContext } from "./context/useGlobalContext";
 
 // Also import your other components
 import Summary from "./components/Summary";
