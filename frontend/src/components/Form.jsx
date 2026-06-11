@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+
 import { useGlobalContext } from "../context/useGlobalContext";
 
 const Form = ({ type }) => {
@@ -48,6 +50,16 @@ const Form = ({ type }) => {
   // 🎨 Dynamic UI adjustments
   const isIncome = type === "income";
   const themeColor = isIncome ? "green" : "red";
+
+  const isLocalhost =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  const api = axios.create({
+    baseURL: isLocalhost
+      ? "http://localhost:5000/api/v1" // Local Machine Backend
+      : "https://expense-tracker-bend-1q77.onrender.com/api/v1", // Render Live Backend
+  });
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">

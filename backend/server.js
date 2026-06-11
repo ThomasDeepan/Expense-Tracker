@@ -10,7 +10,11 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://tom-tracker.vercel.app"], // Tell the server to only trust your React app
+    origin: [
+      "http://localhost:5173", // Local React App (Vite default)
+      "https://tom-tracker.vercel.app", // Live Vercel Frontend
+    ],
+    credentials: true,
   }),
 );
 
