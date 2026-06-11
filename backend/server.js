@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://tracker-tom.vercel.app"], // Tell the server to only trust your React app
+    origin: ["https://tom-tracker.vercel.app"], // Tell the server to only trust your React app
   }),
 );
 
